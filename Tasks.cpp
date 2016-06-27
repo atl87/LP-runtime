@@ -5,73 +5,140 @@
 #include<fstream>
 #include<time.h>
 #include<stdlib.h>
+#include<string.h>
 
 using namespace std;
 
-real_time_taskset *sort_task_set(real_time_taskset *taskset)
+real_time_taskset *sort_task_set(real_time_taskset *taskset, char prio[20])
 {
     if(taskset==NULL)
         cout<<"Error: No task to print !";
     else
-    {      
-       real_time_taskset *sort_help1=taskset;
-        while(sort_help1)
+    {
+        if(strcmp(prio,"DM"))
         {
-            real_time_taskset *sort_help2=sort_help1->next_task;
-            while(sort_help2)
+            real_time_taskset *sort_help1=taskset;
+            while(sort_help1)
             {
-                if(sort_help1->deadline > sort_help2->deadline)
+                real_time_taskset *sort_help2=sort_help1->next_task;
+                while(sort_help2)
                 {
-                    real_time_taskset *prev_task1=taskset;
-                    if(sort_help1!=taskset)
-                    {             
-                        while(prev_task1->next_task!=sort_help1)
-                                prev_task1=prev_task1->next_task;
-                    }
-                        
-                    real_time_taskset *prev_task2=taskset;
-                    while(prev_task2->next_task!=sort_help2)
-                        prev_task2=prev_task2->next_task;
-                    
-                    real_time_taskset *dummy=sort_help1->next_task;
-                    
-                    if(sort_help1!=taskset)
-                    {                        
-                        prev_task2->next_task=sort_help1;
-                        sort_help1->next_task=sort_help2->next_task;
-                        if(prev_task1!=sort_help1)
-                                prev_task1->next_task=sort_help2;
-                        
-                        if(dummy!=sort_help2)
-                                sort_help2->next_task=dummy;
-                        else
-                                sort_help2->next_task=sort_help1;
- 
-                    }
-                    else
+                    if(sort_help1->deadline > sort_help2->deadline)
                     {
-                        prev_task2->next_task=sort_help1;
-                        sort_help1->next_task=sort_help2->next_task;
-                        
-                        if(sort_help2!=dummy)
-                                sort_help2->next_task=dummy;
+                        real_time_taskset *prev_task1=taskset;
+                        if(sort_help1!=taskset)
+                        {             
+                            while(prev_task1->next_task!=sort_help1)
+                                    prev_task1=prev_task1->next_task;
+                        }
+
+                        real_time_taskset *prev_task2=taskset;
+                        while(prev_task2->next_task!=sort_help2)
+                            prev_task2=prev_task2->next_task;
+
+                        real_time_taskset *dummy=sort_help1->next_task;
+
+                        if(sort_help1!=taskset)
+                        {                        
+                            prev_task2->next_task=sort_help1;
+                            sort_help1->next_task=sort_help2->next_task;
+                            if(prev_task1!=sort_help1)
+                                    prev_task1->next_task=sort_help2;
+
+                            if(dummy!=sort_help2)
+                                    sort_help2->next_task=dummy;
+                            else
+                                    sort_help2->next_task=sort_help1;
+
+                        }
                         else
-                                sort_help2->next_task=sort_help1;
-                        
-                        taskset=sort_help2;
-                        
+                        {
+                            prev_task2->next_task=sort_help1;
+                            sort_help1->next_task=sort_help2->next_task;
+
+                            if(sort_help2!=dummy)
+                                    sort_help2->next_task=dummy;
+                            else
+                                    sort_help2->next_task=sort_help1;
+
+                            taskset=sort_help2;
+
+                        }
+
+                        dummy=sort_help1;
+                        sort_help1=sort_help2;
+                        sort_help2=dummy;
+
                     }
-                               
-                    dummy=sort_help1;
-                    sort_help1=sort_help2;
-                    sort_help2=dummy;
-   
+
+                    sort_help2=sort_help2->next_task;
                 }
-                
-                sort_help2=sort_help2->next_task;
+
+                sort_help1=sort_help1->next_task;
+            }
+        }
+        else if(strcmp(prio,"D-C"))
+        {
+            real_time_taskset *sort_help1=taskset;
+            while(sort_help1)
+            {
+                real_time_taskset *sort_help2=sort_help1->next_task;
+                while(sort_help2)
+                {
+                    if((sort_help1->deadline-sort_help1->comp_time) > (sort_help2->deadline-sort_help2->comp_time))
+                    {
+                        real_time_taskset *prev_task1=taskset;
+                        if(sort_help1!=taskset)
+                        {             
+                            while(prev_task1->next_task!=sort_help1)
+                                    prev_task1=prev_task1->next_task;
+                        }
+
+                        real_time_taskset *prev_task2=taskset;
+                        while(prev_task2->next_task!=sort_help2)
+                            prev_task2=prev_task2->next_task;
+
+                        real_time_taskset *dummy=sort_help1->next_task;
+
+                        if(sort_help1!=taskset)
+                        {                        
+                            prev_task2->next_task=sort_help1;
+                            sort_help1->next_task=sort_help2->next_task;
+                            if(prev_task1!=sort_help1)
+                                    prev_task1->next_task=sort_help2;
+
+                            if(dummy!=sort_help2)
+                                    sort_help2->next_task=dummy;
+                            else
+                                    sort_help2->next_task=sort_help1;
+
+                        }
+                        else
+                        {
+                            prev_task2->next_task=sort_help1;
+                            sort_help1->next_task=sort_help2->next_task;
+
+                            if(sort_help2!=dummy)
+                                    sort_help2->next_task=dummy;
+                            else
+                                    sort_help2->next_task=sort_help1;
+
+                            taskset=sort_help2;
+
+                        }
+
+                        dummy=sort_help1;
+                        sort_help1=sort_help2;
+                        sort_help2=dummy;
+
+                    }
+
+                    sort_help2=sort_help2->next_task;
+                }
+
+                sort_help1=sort_help1->next_task;
             }
             
-            sort_help1=sort_help1->next_task;
         }
        
        real_time_taskset *help_ptr=taskset;
@@ -137,22 +204,16 @@ real_time_taskset *sort_tasks(real_time_taskset *taskset)
                         else
                                 sort_help2->next_task=sort_help1;
                         
-                        taskset=sort_help2;
-                        
-                    }
-                               
+                        taskset=sort_help2;                        
+                    }                               
                     dummy=sort_help1;
                     sort_help1=sort_help2;
                     sort_help2=dummy;
-   
-                }
-                
+                }                
                 sort_help2=sort_help2->next_task;
-            }
-            
+            }            
             sort_help1=sort_help1->next_task;
-        }
-       
+        }       
     }
  
     return taskset;

@@ -121,7 +121,7 @@ int main(int argc, char** argv) {
                             cout<<"\n\n***************** parameters not generated ! *****************";
                             exit(1);
                         }
-                        taskset=sort_task_set(taskset);
+                        taskset=sort_task_set(taskset, "DM");
                     }
                 }      
 /****************************************************************************************YOUR CODE GOES HERE****************************************************************************************/                              
