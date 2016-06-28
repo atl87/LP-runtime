@@ -56,11 +56,16 @@ int main(int argc, char** argv) {
     int no_of_preemptions_rds=0;
     int no_of_preemptions_ads=0;
     
+    int no_of_preemptions_fps_d_m=0;
+    int no_of_preemptions_rds_d_m=0;
+    int no_of_preemptions_ads_d_m=0;
+    
     int no_of_preemptions_edf=0;
     int no_of_preemptions_rds_edf=0;
     int no_of_preemptions_ads_edf=0;
     
     float fps=0.0000, rds=0.0000, ads=0.0000;
+    float fps_d_m=0.0000, rds_d_m=0.0000, ads_d_m=0.0000;
     float edf=0.0000, rds_edf=0.0000, ads_edf=0.0000;
     float util_sum=0.0000;   
 
@@ -77,11 +82,20 @@ int main(int argc, char** argv) {
         rds_edf=0.0000;
         ads_edf=0.0000;
         
+        fps_d_m=0.0000;
+        rds_d_m=0.0000;
+        ads_d_m=0.0000;
+        
         util_sum=0.0000;
         
         no_of_preemptions_fps=0;
         no_of_preemptions_rds=0;
         no_of_preemptions_ads=0;
+        
+        no_of_preemptions_fps_d_m=0;
+        no_of_preemptions_rds_d_m=0;
+        no_of_preemptions_ads_d_m=0;
+        
 
         no_of_preemptions_edf=0;
         no_of_preemptions_rds_edf=0;
@@ -131,6 +145,7 @@ int main(int argc, char** argv) {
                 float taskset_util=return_utilization(taskset);
                 int preemptions_fps=0, preemptions_rds=0, preemptions_ads=0, count=0, count1=0, count2, count3, count4, count5,count6;               
                 int preemptions_edf=0, preemptions_rds_edf=0, preemptions_ads_edf=0;
+                int preemptions_fps_d_m=0, preemptions_rds_d_m=0, preemptions_ads_d_m=0, count7, count8, count9; 
                 
                 util_sum+=taskset_util;
                 count=count_tasks(taskset);
@@ -226,6 +241,44 @@ int main(int argc, char** argv) {
 //                    ads_schedule(taskset,NO_OF_PROCESSORS,MAX_TIME,1);
 //                    exit(0);
 //                }
+                
+                taskset=sort_task_set(taskset, "D-M");
+                preemptions_fps_d_m=g_fps_schedule(taskset, NO_OF_PROCESSORS, MAX_TIME, print_log);
+                no_of_preemptions_fps_d_m+=preemptions_fps_d_m;
+                fps_d_m+=taskset_util*preemptions_fps_d_m;
+                
+                count7=count_tasks(taskset);
+                if(count7!=number_of_tasks)
+                {
+                    print_tasks(taskset);
+                    cout<<"\n\n\tError in the number of tasks after FPS_d_M (expected: "<<number_of_tasks<<" Actual: "<<count1<<" )\n\n";
+                    exit(1);          
+                }
+                
+                preemptions_rds_d_m=rds_schedule_modified(taskset, NO_OF_PROCESSORS, MAX_TIME, print_log);
+                rds_d_m+=taskset_util*preemptions_rds_d_m;
+                no_of_preemptions_rds_d_m+=preemptions_rds_d_m;
+                
+                count8=count_tasks(taskset);
+                if(count8!=count1)
+                {
+                    print_tasks(taskset);
+                    cout<<"\n\n\tError in the number of tasks after RDS_d_m (expected: "<<count1<<" Actual: "<<count2<<" )\n\n";
+                    exit(1);       
+                }
+                
+                preemptions_ads_d_m=ads_schedule(taskset, NO_OF_PROCESSORS, MAX_TIME, print_log);
+                ads_d_m+=taskset_util*preemptions_ads_d_m;
+                no_of_preemptions_ads_d_m+=preemptions_ads_d_m;
+                
+                count9=count_tasks(taskset);
+                if(count9!=count2)
+                {
+                    print_tasks(taskset);
+                    cout<<"\n\n\tError in the number of tasks after ADS_d_m (expected: "<<count2<<" Actual: "<<count3<<" )\n\n";
+                    exit(1);       
+                }
+                
 /****************************************************************************************YOUR CODE GOES ABOVE****************************************************************************************/                
               
                 delete_taskset(taskset,print_log); 
@@ -234,13 +287,16 @@ int main(int argc, char** argv) {
             
             f_normal<<"\n"<<(no_of_preemptions_fps/MAX_TASKSETS_PER_SIMULATION)<<"\t"<<(no_of_preemptions_rds/MAX_TASKSETS_PER_SIMULATION)<<"\t"<<(no_of_preemptions_ads/MAX_TASKSETS_PER_SIMULATION);
             f_normal<<"\t"<<(no_of_preemptions_edf/MAX_TASKSETS_PER_SIMULATION)<<"\t"<<(no_of_preemptions_rds_edf/MAX_TASKSETS_PER_SIMULATION)<<"\t"<<(no_of_preemptions_ads_edf/MAX_TASKSETS_PER_SIMULATION);
-            
+            f_normal<<"\n"<<(no_of_preemptions_fps_d_m/MAX_TASKSETS_PER_SIMULATION)<<"\t"<<(no_of_preemptions_rds_d_m/MAX_TASKSETS_PER_SIMULATION)<<"\t"<<(no_of_preemptions_ads_d_m/MAX_TASKSETS_PER_SIMULATION);
             
             if(print_inter)
             {
                 cout<<"\nUtilization: "<<cur_util;
                 cout<<"\nPreemptions P-FPS: "<<(no_of_preemptions_fps/MAX_TASKSETS_PER_SIMULATION)<<" Preemptions RDS-FPS : "<<(no_of_preemptions_rds/MAX_TASKSETS_PER_SIMULATION);
                 cout<<" Preemptions ADS-FPS : "<<(no_of_preemptions_ads/MAX_TASKSETS_PER_SIMULATION);
+                
+                cout<<"\nPreemptions P-FPS_d_m: "<<(no_of_preemptions_fps_d_m/MAX_TASKSETS_PER_SIMULATION)<<" Preemptions RDS-FPS_d_m: "<<(no_of_preemptions_rds_d_m/MAX_TASKSETS_PER_SIMULATION);
+                cout<<" Preemptions ADS-FPS_d_m: "<<(no_of_preemptions_ads_d_m/MAX_TASKSETS_PER_SIMULATION);
 
                 cout<<"\nPreemptions P-EDF: "<<(no_of_preemptions_edf/MAX_TASKSETS_PER_SIMULATION)<<" Preemptions RDS-EDF : "<<(no_of_preemptions_rds_edf/MAX_TASKSETS_PER_SIMULATION);
                 cout<<" Preemptions ADS-EDF : "<<(no_of_preemptions_ads_edf/MAX_TASKSETS_PER_SIMULATION);
@@ -249,10 +305,11 @@ int main(int argc, char** argv) {
             cur_util=cur_util+0.1;
         }
         
-        f_weighted<<(fps/util_sum)<<"\t"<<(rds/util_sum)<<"\t"<<(ads/util_sum)<<"\t"<<(edf/util_sum)<<"\t"<<(rds_edf/util_sum)<<"\t"<<(ads_edf/util_sum)<<"\n";
+        f_weighted<<(fps/util_sum)<<"\t"<<(rds/util_sum)<<"\t"<<(ads/util_sum)<<"\t"<<(edf/util_sum)<<"\t"<<(rds_edf/util_sum)<<"\t"<<(ads_edf/util_sum)<<"\t"<<(fps_d_m/util_sum)<<"\t"<<(rds_d_m/util_sum)<<"\t"<<(ads_d_m/util_sum)<<"\n";
         f_normal<<"\n\n";
         
         cout<<"\n\nWeighted preemptions P-FPS: "<<(fps/util_sum)<<" Weighted preemptions RDS-FPS: "<<(rds/util_sum)<<" Weighted preemptions ADS-FPS: "<<(ads/util_sum);
+        cout<<"\n\nWeighted preemptions P-FPS_d_m: "<<(fps_d_m/util_sum)<<" Weighted preemptions RDS-FPS_d_m: "<<(rds_d_m/util_sum)<<" Weighted preemptions ADS-FPS_d_m: "<<(ads_d_m/util_sum);
         cout<<"\nWeighted preemptions P-EDF: "<<(edf/util_sum)<<" Weighted preemptions RDS-EDF: "<<(rds_edf/util_sum)<<" Weighted preemptions ADS-EDF: "<<(ads_edf/util_sum)<<"\n\n";
         
         number_of_tasks+=2;
