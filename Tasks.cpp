@@ -79,6 +79,7 @@ real_time_taskset *sort_task_set(real_time_taskset *taskset, char prio[20])
         }
         else if(strcmp(prio,"D-C"))
         {
+            cout<<"\n------------------------------------------------------Changing priorities!!!";
             real_time_taskset *sort_help1=taskset;
             while(sort_help1)
             {
