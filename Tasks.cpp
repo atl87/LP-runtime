@@ -20,7 +20,7 @@ real_time_taskset *sort_task_set(real_time_taskset *taskset, int prio)
     {
         if(prio==1)
         {
-            cout<<"---------------------------------------Normal Priority";
+            cout<<"\nNormal Priority";
             real_time_taskset *sort_help1=taskset;
             while(sort_help1)
             {
@@ -83,7 +83,7 @@ real_time_taskset *sort_task_set(real_time_taskset *taskset, int prio)
         }
         else if(prio==2)
         {
-            cout<<"\n------------------------------------------------------Changing priorities!!!";
+            cout<<"-----------------------Changing priorities!!!";
             real_time_taskset *sort_help1=taskset;
             while(sort_help1)
             {
