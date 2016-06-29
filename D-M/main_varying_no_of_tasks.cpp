@@ -50,6 +50,8 @@ int main(int argc, char** argv) {
     float npr_percentage=0.1;
     int print_inter=1;
     int number_of_tasks=6;
+    int DM=1;
+    int DC=2;
 /******************************CONTROL VARIABLES******************************/
     
     int no_of_preemptions_fps=0;
@@ -135,7 +137,7 @@ int main(int argc, char** argv) {
                             cout<<"\n\n***************** parameters not generated ! *****************";
                             exit(1);
                         }
-                        taskset=sort_task_set(taskset, "DM");
+                        taskset=sort_task_set(taskset, DM);
                     }
                 }      
 /****************************************************************************************YOUR CODE GOES HERE****************************************************************************************/                              
@@ -242,7 +244,7 @@ int main(int argc, char** argv) {
 //                    exit(0);
 //                }
                 
-                taskset=sort_task_set(taskset, "D-M");
+                taskset=sort_task_set(taskset, DC);
                 preemptions_fps_d_m=g_fps_schedule(taskset, NO_OF_PROCESSORS, MAX_TIME, print_log);
                 no_of_preemptions_fps_d_m+=preemptions_fps_d_m;
                 fps_d_m+=taskset_util*preemptions_fps_d_m;

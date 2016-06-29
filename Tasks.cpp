@@ -9,14 +9,18 @@
 
 using namespace std;
 
-real_time_taskset *sort_task_set(real_time_taskset *taskset, char prio[20])
+real_time_taskset *sort_task_set(real_time_taskset *taskset, int prio)
 {
+    char DM[]="DM";
+    char DC[]="D-C";
+    
     if(taskset==NULL)
         cout<<"Error: No task to print !";
     else
     {
-        if(strcmp(prio,"DM"))
+        if(prio==1)
         {
+            cout<<"---------------------------------------Normal Priority";
             real_time_taskset *sort_help1=taskset;
             while(sort_help1)
             {
@@ -77,7 +81,7 @@ real_time_taskset *sort_task_set(real_time_taskset *taskset, char prio[20])
                 sort_help1=sort_help1->next_task;
             }
         }
-        else if(strcmp(prio,"D-C"))
+        else if(prio==2)
         {
             cout<<"\n------------------------------------------------------Changing priorities!!!";
             real_time_taskset *sort_help1=taskset;

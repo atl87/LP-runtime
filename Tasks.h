@@ -36,7 +36,7 @@ struct real_time_taskset{
 };
 
 void print_tasks(real_time_taskset *tasket);
-real_time_taskset *sort_task_set(real_time_taskset *tasket, char prio[20]);
+real_time_taskset *sort_task_set(real_time_taskset *tasket, int prio);
 real_time_taskset *sort_tasks(real_time_taskset *tasket);
 int delete_taskset(real_time_taskset *taskset, int print_result);
 int write_taskset_to_file(int task_set_no, real_time_taskset *taskset);
