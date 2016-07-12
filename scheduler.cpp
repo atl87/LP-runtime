@@ -349,7 +349,7 @@ int rds_schedule(real_time_taskset *taskset, float no_of_processors, int MAX_TIM
     int no_of_preemptions=0;
     
     real_time_taskset *ready_queue=NULL;
-    real_time_taskset *running_tasks[30];
+    real_time_taskset *running_tasks[50];
     real_time_taskset *helper=taskset;
     real_time_taskset *finished_task=ready_queue;
     
@@ -559,7 +559,7 @@ int ads_schedule(real_time_taskset *taskset, float no_of_processors, int MAX_TIM
     int no_of_preemptions=0;
     
     real_time_taskset *ready_queue=NULL;
-    real_time_taskset *running_tasks[30];
+    real_time_taskset *running_tasks[50];
     real_time_taskset *helper=taskset;
     real_time_taskset *finished_task=ready_queue;
     
@@ -793,7 +793,7 @@ int rds_schedule_modified(real_time_taskset *taskset, float no_of_processors, in
     int no_of_preemptions=0;
     
     real_time_taskset *ready_queue=NULL;
-    real_time_taskset *running_tasks[30];
+    real_time_taskset *running_tasks[50];
     real_time_taskset *helper=taskset;
     real_time_taskset *finished_task=ready_queue;
     

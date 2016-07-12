@@ -7,7 +7,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/home/abhilash/NetBeansProjects/LP-runtime/scheduler.cpp</file>
+            <file>file:/home/abhilash/NetBeansProjects/LP-runtime/Task_Gen.cpp</file>
             <file>file:/home/abhilash/NetBeansProjects/LP-runtime/Tasks.cpp</file>
+            <file>file:/home/abhilash/NetBeansProjects/LP-runtime/edf_schedulers.cpp</file>
             <file>file:/home/abhilash/NetBeansProjects/LP-runtime/main.cpp</file>
         </group>
     </open-files>

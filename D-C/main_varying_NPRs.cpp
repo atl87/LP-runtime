@@ -22,7 +22,7 @@ using namespace std;
  */
 int main(int argc, char** argv) {
 
-    srand (time(NULL));
+    srand (time(0));
     fstream f_weighted, f_normal;
     f_weighted.open("./results/weighted_results_varying_NPR.txt",ios::out);
     if(!f_weighted)
@@ -38,17 +38,24 @@ int main(int argc, char** argv) {
     }
     
 /******************************CONTROL VARIABLES******************************/    
-    int print_basic=0;
+    int print_basic=1;
     int print_log=0;
-    float NO_OF_PROCESSORS=(float)4.0000;    
+    int print_inter=1;
+    
+    float NO_OF_PROCESSORS=(float)4.0000; 
+    int MAX_TASKSETS_PER_SIMULATION=100;
     int MAX_NO_OF_TASKS=30;
-    int MAX_TASKSETS_PER_SIMULATION=20;
+    
     int MAX_PERIOD=450;
     int MIN_PERIOD=50;
-    int MAX_TIME=5000;
-    float DEADLINE_FRACTION=1;
+    int MAX_TIME=10000;
+    float DEADLINE_FRACTION=((float) rand() / (RAND_MAX))+0.7;
+    if(DEADLINE_FRACTION>1)
+        DEADLINE_FRACTION=1;
+        
     float npr_percentage=0.1;
-    int print_inter=1;
+    
+    
     float cur_util=1;
     float max_util=NO_OF_PROCESSORS/2;
     int DM=1;
@@ -105,7 +112,7 @@ int main(int argc, char** argv) {
         
     cout<<"\nNumber of tasks: "<<MAX_NO_OF_TASKS<<"\n";  
 
-    while(cur_util<=max_util){
+    while(cur_util<=max_util+0.51){
         if(print_basic)
             cout<<"\nUtilization: "<<cur_util<<"\n";
 
@@ -124,9 +131,13 @@ int main(int argc, char** argv) {
             }
             else if(print_log)
                 cout<<"\nCreated task set :"<<counter<<"\n";
-
+            
             while(!successful_parameter_generation)
-            {                   
+            {
+                DEADLINE_FRACTION=((float) rand() / (RAND_MAX))+0.7;
+                if(DEADLINE_FRACTION>1.0000)
+                    DEADLINE_FRACTION=1.0000;
+                
                 if(UUniFast(MAX_NO_OF_TASKS,cur_util,taskset,DEADLINE_FRACTION, MAX_PERIOD, MIN_PERIOD)==1)
                 {
                     successful_parameter_generation=1; 

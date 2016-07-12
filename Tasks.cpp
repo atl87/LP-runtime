@@ -11,16 +11,12 @@ using namespace std;
 
 real_time_taskset *sort_task_set(real_time_taskset *taskset, int prio)
 {
-    char DM[]="DM";
-    char DC[]="D-C";
-    
     if(taskset==NULL)
         cout<<"Error: No task to print !";
     else
     {
         if(prio==1)
         {
-            cout<<"\nNormal Priority";
             real_time_taskset *sort_help1=taskset;
             while(sort_help1)
             {
@@ -81,9 +77,8 @@ real_time_taskset *sort_task_set(real_time_taskset *taskset, int prio)
                 sort_help1=sort_help1->next_task;
             }
         }
-        else if(prio==2)
+        else
         {
-            cout<<"-----------------------Changing priorities!!!";
             real_time_taskset *sort_help1=taskset;
             while(sort_help1)
             {
@@ -142,8 +137,7 @@ real_time_taskset *sort_task_set(real_time_taskset *taskset, int prio)
                 }
 
                 sort_help1=sort_help1->next_task;
-            }
-            
+            }           
         }
        
        real_time_taskset *help_ptr=taskset;
@@ -253,12 +247,19 @@ void print_tasks(real_time_taskset *taskset){
 int delete_taskset(real_time_taskset *taskset, int print_result)
 {
     real_time_taskset *helper=taskset;
+    int i=0;
     
     while(taskset)
     {
         helper=taskset;
         taskset=taskset->next_task;
         free(helper);
+        i++;
+        if(i>100)
+        {
+            cout<<"\n\nError in the number of tasks while deleting.";
+            exit(1);
+        }
     }
     
     if(print_result)
