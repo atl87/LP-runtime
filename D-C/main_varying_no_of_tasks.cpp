@@ -81,7 +81,7 @@ int main(int argc, char** argv) {
     while(number_of_tasks<=MAX_NO_OF_TASKS){
         
         float cur_util=1;
-        float max_util=NO_OF_PROCESSORS/2;
+        float max_util=NO_OF_PROCESSORS/2+0.01;
         
         fps=0.0000;
         rds=0.0000;
