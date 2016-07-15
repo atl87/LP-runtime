@@ -46,8 +46,8 @@ int main(int argc, char** argv) {
     int MAX_TASKSETS_PER_SIMULATION=100;
     int MAX_NO_OF_TASKS=30;
     
-    int MAX_PERIOD=450;
-    int MIN_PERIOD=50;
+    int MAX_PERIOD=490;
+    int MIN_PERIOD=10;
     int MAX_TIME=10000;
     float DEADLINE_FRACTION=((float) rand() / (RAND_MAX))+0.7;
     if(DEADLINE_FRACTION>1)
@@ -57,7 +57,6 @@ int main(int argc, char** argv) {
     
     
     float cur_util=1;
-    float max_util=NO_OF_PROCESSORS/2;
     int DM=1;
     int DC=2;
 /******************************CONTROL VARIABLES******************************/
@@ -112,7 +111,7 @@ int main(int argc, char** argv) {
         
     cout<<"\nNumber of tasks: "<<MAX_NO_OF_TASKS<<"\n";  
 
-    while(cur_util<=max_util+0.51){
+    while(cur_util<=NO_OF_PROCESSORS/2 + 0.01){
         if(print_basic)
             cout<<"\nUtilization: "<<cur_util<<"\n";
 

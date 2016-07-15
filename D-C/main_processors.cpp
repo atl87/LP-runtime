@@ -44,8 +44,8 @@ int main(int argc, char** argv) {
     
     int MAX_TASKSETS_PER_SIMULATION=100;
     int number_of_tasks=32;
-    int MAX_PERIOD=450;
-    int MIN_PERIOD=50;
+    int MAX_PERIOD=490;
+    int MIN_PERIOD=10;
     float DEADLINE_FRACTION=((float) rand() / (RAND_MAX))+0.7;
     if(DEADLINE_FRACTION>1)
         DEADLINE_FRACTION=1;
@@ -80,7 +80,7 @@ int main(int argc, char** argv) {
     while(no_of_proc<=MAX_NO_OF_PROCESSORS){
         
         float cur_util=1.4;
-        float max_util=no_of_proc/2;
+        float max_util=no_of_proc/2+0.01;
         
         fps=0.0000;
         rds=0.0000;
