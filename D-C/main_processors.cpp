@@ -43,14 +43,16 @@ int main(int argc, char** argv) {
     int print_inter=1;   
     
     int MAX_TASKSETS_PER_SIMULATION=100;
-    int number_of_tasks=40;
-    int MAX_PERIOD=495;
-    int MIN_PERIOD=5;
-    float DEADLINE_FRACTION=1;
+    int number_of_tasks=32;
+    int MAX_PERIOD=450;
+    int MIN_PERIOD=50;
+    float DEADLINE_FRACTION=((float) rand() / (RAND_MAX))+0.7;
+    if(DEADLINE_FRACTION>1)
+        DEADLINE_FRACTION=1;
     float npr_percentage=0.1;
 
     int no_of_proc=4;
-    float MAX_NO_OF_PROCESSORS=(float)20.0000; 
+    float MAX_NO_OF_PROCESSORS=(float)18.0000; 
     int MAX_TIME=10000;
     
     int DM=1;
@@ -77,7 +79,7 @@ int main(int argc, char** argv) {
 
     while(no_of_proc<=MAX_NO_OF_PROCESSORS){
         
-        float cur_util=1;
+        float cur_util=1.4;
         float max_util=no_of_proc/2;
         
         fps=0.0000;
@@ -116,6 +118,9 @@ int main(int argc, char** argv) {
             int counter=1;
             while(counter<=MAX_TASKSETS_PER_SIMULATION)
             {
+                DEADLINE_FRACTION=((float) rand() / (RAND_MAX))+0.7;
+                if(DEADLINE_FRACTION>1.0000)
+                    DEADLINE_FRACTION=1.0000;
                 
                 int successful_parameter_generation=0;
                 real_time_taskset *taskset=(real_time_taskset*) malloc(sizeof(real_time_taskset));
